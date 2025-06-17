@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user.model');
-const bcrypt = require('bcryptjs');
 
 // Register route
 router.post('/register', async (req, res) => {
@@ -17,14 +16,10 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create new user
+    // Create new user with plain text password
     const user = new User({
       email: email.toLowerCase(),
-      password: hashedPassword,
+      password: password,
       inventoryId: `INV${Date.now()}` // Generate a unique inventory ID
     });
 
