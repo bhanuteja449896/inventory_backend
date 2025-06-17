@@ -7,7 +7,7 @@ const transactionRouter = express.Router();
 // Get all transactions for an inventory
 transactionRouter.get('/inventory/:inventoryId', async (req, res) => {
   try {
-    const transactions = await Transaction.find({ InventoryId: req.params.inventoryId })
+    const transactions = await Transaction.find({ inventoryId: req.params.inventoryId })
       .sort({ createdAt: -1 });
     
     res.json({
@@ -58,7 +58,7 @@ transactionRouter.get('/:transactionId', async (req, res) => {
 transactionRouter.post('/', async (req, res) => {
   try {
     // Validate required fields
-    const requiredFields = ['InventoryId', 'productId', 'type', 'quantity', 'unitPrice'];
+    const requiredFields = ['inventoryId', 'productId', 'type', 'quantity', 'unitPrice'];
     const missingFields = requiredFields.filter(field => !req.body[field]);
     
     if (missingFields.length > 0) {
@@ -71,7 +71,7 @@ transactionRouter.post('/', async (req, res) => {
 
     // Validate product exists
     const product = await Product.findOne({
-      InventoryId: req.body.InventoryId,
+      inventoryId: req.body.inventoryId,
       productId: req.body.productId
     });
 
@@ -154,7 +154,7 @@ transactionRouter.patch('/:transactionId/status', async (req, res) => {
     if (req.body.status === 'CANCELLED' && transaction.status === 'COMPLETED') {
       // Reverse stock changes
       const product = await Product.findOne({
-        InventoryId: transaction.InventoryId,
+        inventoryId: transaction.inventoryId,
         productId: transaction.productId
       });
 
@@ -196,7 +196,7 @@ transactionRouter.patch('/:transactionId/status', async (req, res) => {
 transactionRouter.get('/stats/:inventoryId', async (req, res) => {
   try {
     const stats = await Transaction.aggregate([
-      { $match: { InventoryId: req.params.inventoryId } },
+      { $match: { inventoryId: req.params.inventoryId } },
       {
         $group: {
           _id: '$type',

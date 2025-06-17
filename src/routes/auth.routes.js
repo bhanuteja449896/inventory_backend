@@ -86,12 +86,12 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    // Return success with inventoryId (note the capital I in InventoryId)
+    // Return success with inventoryId
     res.status(200).json({
       success: true,
       message: 'Login successful',
       data: {
-        inventoryId: user.InventoryId, // Changed to match your DB field name
+        inventoryId: user.inventoryId,
         email: user.email
       }
     });

@@ -10,12 +10,12 @@ productRouter.get('/inventory/:inventoryId', async (req, res) => {
     if (!req.params.inventoryId) {
       return res.status(400).json({
         success: false,
-        message: 'InventoryId is required',
+        message: 'inventoryId is required',
         timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
       });
     }
 
-    const products = await Product.find({ InventoryId: req.params.inventoryId });
+    const products = await Product.find({ inventoryId: req.params.inventoryId });
     
     res.json({
       success: true,
@@ -33,20 +33,20 @@ productRouter.get('/inventory/:inventoryId', async (req, res) => {
   }
 });
 
-// Get a single product by productId and InventoryId
+// Get a single product by productId and inventoryId
 productRouter.get('/product', async (req, res) => {
   try {
     // Validate required query parameters
-    if (!req.query.InventoryId || !req.query.productId) {
+    if (!req.query.inventoryId || !req.query.productId) {
       return res.status(400).json({
         success: false,
-        message: 'Both InventoryId and productId are required',
+        message: 'Both inventoryId and productId are required',
         timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
       });
     }
 
     const product = await Product.findOne({ 
-      InventoryId: req.query.InventoryId,
+      inventoryId: req.query.inventoryId,
       productId: req.query.productId
     });
     
@@ -77,7 +77,7 @@ productRouter.get('/product', async (req, res) => {
 productRouter.post('/', async (req, res) => {
   try {
     // Validate required fields (excluding productId as it's auto-generated)
-    const requiredFields = ['InventoryId', 'name', 'description', 'original_price', 'price', 'stock', 'category', 'supplierId'];
+    const requiredFields = ['inventoryId', 'name', 'description', 'original_price', 'price', 'stock', 'category', 'supplierId'];
     const missingFields = requiredFields.filter(field => !req.body[field]);
     
     if (missingFields.length > 0) {
@@ -99,7 +99,7 @@ productRouter.post('/', async (req, res) => {
 
     // Create new product with only the fields we want
     const productData = {
-      InventoryId: req.body.InventoryId,
+      inventoryId: req.body.inventoryId,
       name: req.body.name,
       description: req.body.description,
       original_price: req.body.original_price,
@@ -133,17 +133,17 @@ productRouter.post('/', async (req, res) => {
 productRouter.patch('/update', async (req, res) => {
   try {
     // Validate required fields for update
-    if (!req.body.InventoryId || !req.body.productId) {
+    if (!req.body.inventoryId || !req.body.productId) {
       return res.status(400).json({
         success: false,
-        message: 'Both InventoryId and productId are required for update',
+        message: 'Both inventoryId and productId are required for update',
         timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
       });
     }
 
-    // Find product by both InventoryId and productId
+    // Find product by both inventoryId and productId
     const product = await Product.findOne({ 
-      InventoryId: req.body.InventoryId,
+      inventoryId: req.body.inventoryId,
       productId: req.body.productId
     });
 
@@ -208,17 +208,17 @@ productRouter.patch('/update', async (req, res) => {
 productRouter.delete('/delete', async (req, res) => {
   try {
     // Validate required fields for deletion
-    if (!req.body.InventoryId || !req.body.productId) {
+    if (!req.body.inventoryId || !req.body.productId) {
       return res.status(400).json({
         success: false,
-        message: 'Both InventoryId and productId are required for deletion',
+        message: 'Both inventoryId and productId are required for deletion',
         timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
       });
     }
 
-    // Find and delete product by both InventoryId and productId
+    // Find and delete product by both inventoryId and productId
     const product = await Product.findOne({ 
-      InventoryId: req.body.InventoryId,
+      inventoryId: req.body.inventoryId,
       productId: req.body.productId
     });
 

@@ -10,7 +10,7 @@ const transactionSchema = new mongoose.Schema({
       return `TRN${Date.now()}${Math.floor(Math.random() * 1000)}`;
     }
   },
-  InventoryId: {
+  inventoryId: {
     type: String,
     required: true
   },
@@ -86,7 +86,7 @@ transactionSchema.pre('save', function(next) {
 
 // Create indexes
 transactionSchema.index({ transactionId: 1 }, { unique: true });
-transactionSchema.index({ InventoryId: 1, productId: 1 });
+transactionSchema.index({ inventoryId: 1, productId: 1 });
 transactionSchema.index({ createdAt: -1 });
 transactionSchema.index({ type: 1, status: 1 });
 

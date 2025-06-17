@@ -7,7 +7,7 @@ const convertToIST = (date) => {
 };
 
 const productSchema = new mongoose.Schema({
-  InventoryId: {
+  inventoryId: {
     type: String,
     required: true
   },

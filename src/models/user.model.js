@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  InventoryId: {
+  inventoryId: {
     type: String,
     required: true,
     unique: true

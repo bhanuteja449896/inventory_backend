@@ -8,7 +8,7 @@ const supplierRouter = express.Router();
 supplierRouter.post('/', async (req, res) => {
   try {
     // Validate required fields
-    const requiredFields = ['InventoryId', 'name', 'email', 'phone'];
+    const requiredFields = ['inventoryId', 'name', 'email', 'phone'];
     const missingFields = requiredFields.filter(field => !req.body[field]);
     
     if (missingFields.length > 0) {
@@ -41,7 +41,7 @@ supplierRouter.post('/', async (req, res) => {
 
     // Create new supplier
     const supplierData = {
-      InventoryId: req.body.InventoryId,
+      inventoryId: req.body.inventoryId,
       name: req.body.name,
       email: req.body.email.toLowerCase(),
       phone: req.body.phone,
@@ -69,18 +69,18 @@ supplierRouter.post('/', async (req, res) => {
 });
 
 // Get all suppliers for an inventory
-supplierRouter.get('/inventory/:InventoryId', async (req, res) => {
+supplierRouter.get('/inventory/:inventoryId', async (req, res) => {
   try {
     // Validate inventoryId
-    if (!req.params.InventoryId) {
+    if (!req.params.inventoryId) {
       return res.status(400).json({
         success: false,
-        message: 'InventoryId is required',
+        message: 'inventoryId is required',
         timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
       });
     }
 
-    const suppliers = await Supplier.find({ InventoryId: req.params.InventoryId });
+    const suppliers = await Supplier.find({ inventoryId: req.params.inventoryId });
     
     res.json({
       success: true,
@@ -148,17 +148,17 @@ supplierRouter.get('/products/:supplierId', async (req, res) => {
 supplierRouter.patch('/update', async (req, res) => {
   try {
     // Validate required fields for update
-    if (!req.body.InventoryId || !req.body.supplierId) {
+    if (!req.body.inventoryId || !req.body.supplierId) {
       return res.status(400).json({
         success: false,
-        message: 'Both InventoryId and supplierId are required for update',
+        message: 'Both inventoryId and supplierId are required for update',
         timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
       });
     }
 
-    // Find supplier by both InventoryId and supplierId
+    // Find supplier by both inventoryId and supplierId
     const supplier = await Supplier.findOne({ 
-      InventoryId: req.body.InventoryId,
+      inventoryId: req.body.inventoryId,
       supplierId: req.body.supplierId
     });
 
